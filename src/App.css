@@ -1,0 +1,112 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes gradientAnimationLight {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes gradientAnimationDark {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient-light {
+  background: linear-gradient(
+    270deg,
+    #ff9a9e,
+    #fad0c4,
+    #fad0c4,
+    #ff9a9e,
+    #a18cd1,
+    #fbc2eb,
+    #fad0c4
+  );
+  background-size: 1400% 1400%;
+  animation: gradientAnimationLight 30s ease infinite;
+}
+
+.animated-gradient-dark {
+  background: linear-gradient(
+    270deg,
+    #1f1c2c,
+    #928dab,
+    #1f1c2c,
+    #6e45e2,
+    #4b79a1,
+    #283e51,
+    #485461
+  );
+  background-size: 1400% 1400%;
+  animation: gradientAnimationDark 30s ease infinite;
+}
+
+.fixed-size-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.ai-icon {
+  color: #ffcc00; /* Bright yellow for better visibility */
+}
+
+.user-icon {
+  color: #00ccff; /* Bright cyan for better visibility */
+}
+
+.text-gray-500:hover {
+  color: #ffcc00; /* Bright yellow for better visibility */
+}
+
+.text-gray-900:hover {
+  color: #00ccff; /* Bright cyan for better visibility */
+}
