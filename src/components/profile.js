@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { auth, db } from "./firebase";
 import { doc, getDoc } from "firebase/firestore";
-import llmModel from "./llmModel";
 
 function Profile() {
   const [userDetails, setUserDetails] = useState(null);
@@ -22,9 +21,7 @@ function Profile() {
   const handleChatSession = () => {
     window.location.href = "/chat";
   };
-  const handleAISession = () => {
-    llmModel();
-  };
+  const handleAISession = () => {};
   useEffect(() => {
     fetchUserData();
   }, []);

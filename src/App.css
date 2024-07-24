@@ -36,77 +36,59 @@
     transform: rotate(360deg);
   }
 }
-@keyframes gradientAnimationLight {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes gradientAnimationDark {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
 
 .animated-gradient-light {
-  background: linear-gradient(
-    270deg,
-    #ff9a9e,
-    #fad0c4,
-    #fad0c4,
-    #ff9a9e,
-    #a18cd1,
-    #fbc2eb,
-    #fad0c4
-  );
-  background-size: 1400% 1400%;
-  animation: gradientAnimationLight 30s ease infinite;
+  background: linear-gradient(to right, #f3ec78, #af4261);
 }
 
 .animated-gradient-dark {
-  background: linear-gradient(
-    270deg,
-    #1f1c2c,
-    #928dab,
-    #1f1c2c,
-    #6e45e2,
-    #4b79a1,
-    #283e51,
-    #485461
-  );
-  background-size: 1400% 1400%;
-  animation: gradientAnimationDark 30s ease infinite;
+  background: linear-gradient(to right, #2c3e50, #4ca1af);
 }
 
+.static-gradient-light {
+  background: linear-gradient(to right, #e0eafc, #cfdef3);
+}
+
+.static-gradient-dark {
+  background: linear-gradient(to right, #434343, #000000);
+}
+
+/* Ensure other styles such as chat window, icons, etc. are present */
 .fixed-size-icon {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 24px;
+  height: 24px;
 }
 
 .ai-icon {
-  color: #ffcc00; /* Bright yellow for better visibility */
+  color: #ffeb3b; /* Bright yellow color for better visibility in both modes */
 }
 
 .user-icon {
-  color: #00ccff; /* Bright cyan for better visibility */
-}
-
-.text-gray-500:hover {
-  color: #ffcc00; /* Bright yellow for better visibility */
+  color: #03a9f4; /* Bright blue color for better visibility in both modes */
 }
 
 .text-gray-900:hover {
   color: #00ccff; /* Bright cyan for better visibility */
+}
+/* App.css */
+
+.ai-icon {
+  color: #ffeb3b; /* Bright yellow color for better visibility in both modes */
+}
+
+.user-icon {
+  color: #03a9f4; /* Bright blue color for better visibility in both modes */
+}
+
+/* Ensure the dropzone is styled correctly */
+.dropzone {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* App.css */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }

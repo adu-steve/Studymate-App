@@ -9,9 +9,10 @@ import {
   FaMoon,
   FaUserCircle,
   FaRobot,
-  FaFileUpload,
 } from "react-icons/fa";
+import { useDropzone } from "react-dropzone";
 import llmModel from "./llmModel"; // Import the llmModel function
+import { toast } from "react-toastify";
 
 const ChatApp = () => {
   const [messages, setMessages] = useState([]);
@@ -33,10 +34,10 @@ const ChatApp = () => {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
-  const sendMessage = async () => {
-    if (input.trim() === "") return;
+  const sendMessage = async (message, file) => {
+    if (message.trim() === "") return;
 
-    const userMessage = { sender: "user", text: input };
+    const userMessage = { sender: "user", text: message };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setHistory((prevHistory) => [...prevHistory, userMessage.text]);
     setInput("");
@@ -46,10 +47,9 @@ const ChatApp = () => {
     setMessages((prevMessages) => [...prevMessages, loadingMessage]);
 
     try {
-      const aiResponse = await llmModel(input);
+      const aiResponse = await llmModel(message, file, history);
       const aiMessage = { sender: "ai", text: aiResponse };
 
-      // Replace loading message with AI message
       setMessages((prevMessages) => {
         const updatedMessages = prevMessages.slice(0, -1); // Remove the loading message
         return [...updatedMessages, aiMessage];
@@ -67,27 +67,28 @@ const ChatApp = () => {
     setDarkMode(!darkMode);
   };
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    if (!file) return;
+  const onDrop = async (acceptedFiles) => {
+    for (const file of acceptedFiles) {
+      const reader = new FileReader();
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const userMessage = {
-        sender: "user",
-        text: `<img src="${event.target.result}" alt="Uploaded File" class="max-w-full h-auto rounded-lg" />`,
-        isHtml: true, // Render as HTML
+      reader.onload = async () => {
+        const content = reader.result;
+        sendMessage("", content, "");
+        console.log(content);
       };
-      setMessages((prevMessages) => [...prevMessages, userMessage]);
-    };
-    reader.readAsDataURL(file);
+      reader.readAsText(file);
+    }
   };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: ".csv, .pdf, .txt, .docx",
+  });
 
   return (
     <div
       className={`flex h-screen ${
-        darkMode ? "animated-gradient-dark" : "animated-gradient-light"
+        darkMode ? "static-gradient-dark" : "static-gradient-light"
       }`}
     >
       {/* Sidebar */}
@@ -108,7 +109,7 @@ const ChatApp = () => {
           <ul>
             <li className="mb-2">
               <a
-                href="#"
+                href="/landPage"
                 className="flex items-center p-2 bg-blue-500 hover:bg-blue-700 rounded text-white no-underline"
               >
                 <FaHome className="mr-2" /> Home
@@ -136,23 +137,34 @@ const ChatApp = () => {
 
       {/* Main Content */}
       <div
-        className={`flex flex-col flex-1 p-4 md:max-w-4xl md:mx-auto w-full ${
+        className={`flex flex-col flex-1 p-4 md:max-w-6xl md:mx-auto w-full ${
           sidebarOpen ? "blur-sm" : ""
         }`}
       >
         <header className="flex items-center justify-between mb-4">
           <button
             onClick={toggleSidebar}
-            className="text-2xl text-gray-500 hover:text-gray-900"
+            className="text-2xl text-gray-500 hover:text-yellow-500"
           >
             <FaBars />
+            <h3>Menu</h3>
           </button>
           <h1 className="text-2xl font-bold">AI Chat App</h1>
           <button
             onClick={toggleDarkMode}
-            className="text-2xl text-gray-500 hover:text-gray-900"
+            className="text-2xl text-gray-500 hover:text-blue-500"
           >
-            {darkMode ? <FaSun /> : <FaMoon />}
+            {darkMode ? (
+              <p>
+                <FaSun />
+                Light
+              </p>
+            ) : (
+              <p>
+                <FaMoon />
+                Dark
+              </p>
+            )}
           </button>
         </header>
         <div
@@ -169,7 +181,9 @@ const ChatApp = () => {
               }`}
             >
               {msg.sender === "ai" && (
-                <FaRobot className="text-xl mr-2 fixed-size-icon ai-icon" />
+                <div className="flex-shrink-0 mr-2">
+                  <FaRobot className="text-xl fixed-size-icon ai-icon" />
+                </div>
               )}
               <div
                 className={`inline-block p-2 rounded ${
@@ -186,7 +200,9 @@ const ChatApp = () => {
                 {!msg.isHtml && msg.text}
               </div>
               {msg.sender === "user" && (
-                <FaUserCircle className="text-xl ml-2 fixed-size-icon user-icon" />
+                <div className="flex-shrink-0 ml-2">
+                  <FaUserCircle className="text-xl fixed-size-icon user-icon" />
+                </div>
               )}
             </div>
           ))}
@@ -201,22 +217,30 @@ const ChatApp = () => {
             }`}
             placeholder="Type a message..."
           />
-          <label className="bg-blue-500 text-white p-2 rounded-r-lg cursor-pointer">
-            <FaFileUpload />
-            <input
-              type="file"
-              className="hidden"
-              onChange={handleFileUpload}
-              accept="application/pdf"
-            />
-          </label>
           <button
-            onClick={sendMessage}
+            onClick={() => sendMessage(input)}
             className="bg-blue-500 text-white p-2 rounded-r-lg"
           >
             Send
           </button>
         </div>
+      </div>
+
+      {/* File Upload Area */}
+      <div
+        {...getRootProps({
+          className:
+            "dropzone fixed bottom-4 right-4 w-40 p-4 h-32 flex items-center justify-center cursor-pointer",
+        })}
+        className={`${
+          darkMode ? "bg-gray-700 text-white" : "bg-gray-200 text-black"
+        } border-2 border-dashed border-gray-500 rounded-lg mt-32 mr-10 h-44`}
+      >
+        <input {...getInputProps()} />
+        <p className="m-10">
+          Click here to upload file
+          <FaRobot className="text-xl size-20 bg-cyan-500 " />
+        </p>
       </div>
     </div>
   );
