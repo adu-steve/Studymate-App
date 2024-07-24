@@ -92,7 +92,7 @@ const LandingPage = () => {
       <footer className="bg-gray-900 text-white py-6 px-6">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
           <p className="mb-4 md:mb-0">
-            &copy; 2024 Your Company. All rights reserved.
+            &copy; 2024 SAC AI. All rights reserved.
           </p>
           <div className="space-x-4">
             <a href="#" className="hover:underline">
