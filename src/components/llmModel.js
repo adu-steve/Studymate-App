@@ -1,6 +1,6 @@
 import { ChatOpenAI } from "@langchain/openai";
 
-const llmModel = async (message, file, history) => {
+const llmModel = async (message, file, fileType, history) => {
   const model = new ChatOpenAI({
     openAIApiKey: process.env.REACT_APP_OPENAI_API_KEY,
     modelName: "gpt-3.5-turbo",
@@ -9,7 +9,7 @@ const llmModel = async (message, file, history) => {
   });
 
   const response = await model.invoke(message);
-  return response.content;
+  return response;
 };
 
 export default llmModel;

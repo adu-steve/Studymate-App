@@ -12,7 +12,6 @@ import {
 } from "react-icons/fa";
 import { useDropzone } from "react-dropzone";
 import llmModel from "./llmModel"; // Import the llmModel function
-import { toast } from "react-toastify";
 
 const ChatApp = () => {
   const [messages, setMessages] = useState([]);
@@ -34,7 +33,7 @@ const ChatApp = () => {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
-  const sendMessage = async (message, file) => {
+  const sendMessage = async (message, file, fileType) => {
     if (message.trim() === "") return;
 
     const userMessage = { sender: "user", text: message };
@@ -47,7 +46,7 @@ const ChatApp = () => {
     setMessages((prevMessages) => [...prevMessages, loadingMessage]);
 
     try {
-      const aiResponse = await llmModel(message, file, history);
+      const aiResponse = await llmModel(message, file, fileType, history);
       const aiMessage = { sender: "ai", text: aiResponse };
 
       setMessages((prevMessages) => {
@@ -69,14 +68,8 @@ const ChatApp = () => {
 
   const onDrop = async (acceptedFiles) => {
     for (const file of acceptedFiles) {
-      const reader = new FileReader();
-
-      reader.onload = async () => {
-        const content = reader.result;
-        sendMessage("", content, "");
-        console.log(content);
-      };
-      reader.readAsText(file);
+      const fileType = file.type;
+      sendMessage("", file, fileType);
     }
   };
 
@@ -117,7 +110,7 @@ const ChatApp = () => {
             </li>
             <li className="mb-2">
               <a
-                href="#"
+                href="/history"
                 className="flex items-center p-2 bg-blue-500 hover:bg-blue-700 rounded text-white no-underline"
               >
                 <FaHistory className="mr-2" /> History
@@ -125,7 +118,7 @@ const ChatApp = () => {
             </li>
             <li className="mb-2">
               <a
-                href="#"
+                href="/about"
                 className="flex items-center p-2 bg-blue-500 hover:bg-blue-700 rounded text-white no-underline"
               >
                 <FaInfo className="mr-2" /> About
