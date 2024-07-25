@@ -21,13 +21,13 @@ const LandingPage = () => {
             <a href="/" className="hover:underline">
               Home
             </a>
-            <a href="#" className="hover:underline">
+            <a href="/" className="hover:underline">
               About
             </a>
-            <a href="#" className="hover:underline">
+            <a href="/" className="hover:underline">
               Services
             </a>
-            <a href="#" className="hover:underline">
+            <a href="/" className="hover:underline">
               Settings
             </a>
           </nav>
@@ -95,10 +95,10 @@ const LandingPage = () => {
             &copy; 2024 SAC AI. All rights reserved.
           </p>
           <div className="space-x-4">
-            <a href="#" className="hover:underline">
+            <a href="/" className="hover:underline">
               Privacy Policy
             </a>
-            <a href="#" className="hover:underline">
+            <a href="/" className="hover:underline">
               Terms of Service
             </a>
           </div>
