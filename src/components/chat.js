@@ -69,6 +69,7 @@ const ChatApp = () => {
   const onDrop = async (acceptedFiles) => {
     for (const file of acceptedFiles) {
       const fileType = file.type;
+      console.log(fileType);
       sendMessage("", file, fileType);
     }
   };
