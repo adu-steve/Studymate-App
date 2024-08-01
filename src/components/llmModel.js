@@ -10,19 +10,6 @@ const llmModel = async (message, file, fileType, history) => {
     temperature: 0.7,
     verbose: true,
   });
-  if (fileType === "text/plain") {
-    const txtLoader = new TextLoader(file);
-    const docs = await txtLoader.load();
-  } else if (
-    fileType ===
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  ) {
-    const docxLoader = new DocxLoader(file);
-    const docs = await docxLoader.load();
-  } else if (fileType === "") {
-    const loader = new CSVLoader(file);
-    const docs = await loader.load();
-  }
 
   const response = await model.invoke(message);
   return response.content;
