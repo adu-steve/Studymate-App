@@ -33,6 +33,39 @@ const ChatApp = () => {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
+  //////
+
+  const sendFileToLLMModel = async (file) => {
+    console.log("Orignal file:", file);
+    // const formData = new FormData();
+    // formData.append("file", file);
+    // formData.append("history", JSON.stringify(history));
+
+    // console.log("File Back: ", formData);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(file),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      console.log("Response from back end: ", response.json());
+      const data = await response.json();
+      return data.response; // Adjust based on your backend response structure
+    } catch (error) {
+      console.error("Error sending file:", error);
+      return "Error processing file.";
+    }
+  };
+
+  ///////
   const sendMessage = async (message, file, fileType) => {
     if (message.trim() === "") return;
 
@@ -46,6 +79,7 @@ const ChatApp = () => {
     setMessages((prevMessages) => [...prevMessages, loadingMessage]);
 
     try {
+      console.log(message, file, fileType);
       const aiResponse = await llmModel(message, file, fileType, history);
       const aiMessage = { sender: "ai", text: aiResponse };
 
@@ -68,9 +102,12 @@ const ChatApp = () => {
 
   const onDrop = async (acceptedFiles) => {
     for (const file of acceptedFiles) {
-      const fileType = file.type;
-      console.log(fileType);
-      sendMessage("", file, fileType);
+      // const fileType = file.type;
+      console.log("FILE: ", file);
+
+      await sendFileToLLMModel(file);
+
+      // console.log("FILE TEST:", file);
     }
   };
 
