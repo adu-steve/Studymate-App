@@ -65,7 +65,6 @@ const ChatApp = () => {
     }
   };
 
-  ///////
   const sendMessage = async (message, file, fileType) => {
     if (message.trim() === "") return;
 
@@ -106,8 +105,6 @@ const ChatApp = () => {
       console.log("FILE: ", file);
 
       await sendFileToLLMModel(file);
-
-      // console.log("FILE TEST:", file);
     }
   };
 
