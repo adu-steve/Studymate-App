@@ -10,8 +10,6 @@ import {
   FaUserCircle,
   FaRobot,
 } from "react-icons/fa";
-import { useDropzone } from "react-dropzone";
-import llmModel from "./llmModel"; // Import the llmModel function
 
 const ChatApp = () => {
   const [messages, setMessages] = useState([]);
@@ -20,11 +18,10 @@ const ChatApp = () => {
   const [history, setHistory] = useState([]);
   const [darkMode, setDarkMode] = useState(() => {
     const savedMode = localStorage.getItem("darkMode");
-    return savedMode === "true" || savedMode === null; // Default to dark mode if no preference is saved
+    return savedMode === "true" || savedMode === null;
   });
 
   useEffect(() => {
-    // Scroll to the bottom whenever messages change
     const chatWindow = document.getElementById("chat-window");
     chatWindow.scrollTop = chatWindow.scrollHeight;
   }, [messages]);
@@ -33,39 +30,7 @@ const ChatApp = () => {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
-  //////
-
-  const sendFileToLLMModel = async (file) => {
-    console.log("Orignal file:", file);
-    // const formData = new FormData();
-    // formData.append("file", file);
-    // formData.append("history", JSON.stringify(history));
-
-    // console.log("File Back: ", formData);
-
-    try {
-      const response = await fetch("http://localhost:5000/api/upload", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(file),
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      console.log("Response from back end: ", response.json());
-      const data = await response.json();
-      return data.response; // Adjust based on your backend response structure
-    } catch (error) {
-      console.error("Error sending file:", error);
-      return "Error processing file.";
-    }
-  };
-
-  const sendMessage = async (message, file, fileType) => {
+  const sendMessage = async (message, file, history) => {
     if (message.trim() === "") return;
 
     const userMessage = { sender: "user", text: message };
@@ -73,22 +38,8 @@ const ChatApp = () => {
     setHistory((prevHistory) => [...prevHistory, userMessage.text]);
     setInput("");
 
-    // Show loading indicator
     const loadingMessage = { sender: "ai", text: "..." };
     setMessages((prevMessages) => [...prevMessages, loadingMessage]);
-
-    try {
-      console.log(message, file, fileType);
-      const aiResponse = await llmModel(message, file, fileType, history);
-      const aiMessage = { sender: "ai", text: aiResponse };
-
-      setMessages((prevMessages) => {
-        const updatedMessages = prevMessages.slice(0, -1); // Remove the loading message
-        return [...updatedMessages, aiMessage];
-      });
-    } catch (error) {
-      console.error("Error sending message:", error);
-    }
   };
 
   const toggleSidebar = () => {
@@ -99,19 +50,17 @@ const ChatApp = () => {
     setDarkMode(!darkMode);
   };
 
-  const onDrop = async (acceptedFiles) => {
-    for (const file of acceptedFiles) {
-      // const fileType = file.type;
-      console.log("FILE: ", file);
-
-      await sendFileToLLMModel(file);
-    }
+  const handleMessage = async (message) => {
+    await sendMessage(message, null, history);
   };
 
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: ".csv, .pdf, .txt, .docx",
-  });
+  const handleFileChange = async (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    if (file) {
+      await sendMessage("File uploaded", file);
+    }
+  };
 
   return (
     <div
@@ -177,7 +126,7 @@ const ChatApp = () => {
             <FaBars />
             <h3>Menu</h3>
           </button>
-          <h1 className="text-2xl font-bold">AI Chat App</h1>
+          <h1 className="text-2xl font-bold">SAC AI</h1>
           <button
             onClick={toggleDarkMode}
             className="text-2xl text-gray-500 hover:text-blue-500"
@@ -246,7 +195,7 @@ const ChatApp = () => {
             placeholder="Type a message..."
           />
           <button
-            onClick={() => sendMessage(input)}
+            onClick={() => handleMessage(messages)}
             className="bg-blue-500 text-white p-2 rounded-r-lg"
           >
             Send
@@ -255,20 +204,14 @@ const ChatApp = () => {
       </div>
 
       {/* File Upload Area */}
-      <div
-        {...getRootProps({
-          className:
-            "dropzone fixed bottom-4 right-4 w-40 p-4 h-32 flex items-center justify-center cursor-pointer",
-        })}
-        className={`${
-          darkMode ? "bg-gray-700 text-white" : "bg-gray-200 text-black"
-        } border-2 border-dashed border-gray-500 rounded-lg mt-32 mr-10 h-44`}
-      >
-        <input {...getInputProps()} />
-        <p className="m-10">
-          Click here to upload file
-          <FaRobot className="text-xl size-20 bg-cyan-500 " />
-        </p>
+      <div className="fixed bottom-4 left-4 p-4 flex items-center justify-center">
+        <input
+          type="file"
+          onChange={handleFileChange}
+          className="w-20 h-32 border-2 border-dashed border-gray-500 rounded-lg cursor-pointer bg-gray-200 text-black p-2 hover:bg-gray-300 transition duration-300 ease-in-out"
+          style={{ display: "flex" }}
+        />
+        <p className="mt-2 text-center text-sm">Click here to upload a file</p>
       </div>
     </div>
   );
