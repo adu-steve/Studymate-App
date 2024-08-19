@@ -51,14 +51,14 @@ const ChatApp = () => {
   };
 
   const handleMessage = async (message) => {
-    await sendMessage(message, null, history);
+    await sendMessage(input, null, history);
   };
 
   const handleFileChange = async (e) => {
     e.preventDefault();
     const file = e.target.files[0];
     if (file) {
-      await sendMessage("File uploaded", file);
+      await sendMessage("File uploaded", file, "");
     }
   };
 
@@ -195,7 +195,7 @@ const ChatApp = () => {
             placeholder="Type a message..."
           />
           <button
-            onClick={() => handleMessage(messages)}
+            onClick={handleMessage}
             className="bg-blue-500 text-white p-2 rounded-r-lg"
           >
             Send
