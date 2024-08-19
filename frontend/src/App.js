@@ -9,15 +9,15 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import Login from "./components/login";
-import SignUp from "./components/register";
-import ChatApp from "./components/chat";
-import LandingPage from "./components/landingPage";
-import Profile from "./components/profile";
+import Login from "./components/Login";
+import SignUp from "./components/Register";
+import ChatApp from "./components/Chat";
+import LandingPage from "./components/LandingPage";
+import Profile from "./components/Profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./components/firebase";
-import Settings from "./components/setting";
+import Settings from "./components/Setting";
 function App() {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
