@@ -10,6 +10,7 @@ import {
   FaUserCircle,
   FaRobot,
 } from "react-icons/fa";
+import axios from "axios";
 
 const ChatApp = () => {
   const [messages, setMessages] = useState([]);
@@ -57,7 +58,16 @@ const ChatApp = () => {
   const handleFileChange = async (e) => {
     e.preventDefault();
     const file = e.target.files[0];
+
     if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      axios
+        .post("http://localhost:5000/upload", formData)
+        .then((res) => {})
+        .catch((error) => {
+          console.log(error);
+        });
       await sendMessage("File uploaded", file, "");
     }
   };
