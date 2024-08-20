@@ -31,8 +31,13 @@ const ChatApp = () => {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
-  const sendMessage = async (message, file, history) => {
+  const sendMessage = async (message, file) => {
     if (message.trim() === "") return;
+    const formData = new FormData();
+    if (file) {
+      formData.append("file", file);
+    }
+    formData.append("message", message);
 
     const userMessage = { sender: "user", text: message };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
@@ -41,6 +46,34 @@ const ChatApp = () => {
 
     const loadingMessage = { sender: "ai", text: "..." };
     setMessages((prevMessages) => [...prevMessages, loadingMessage]);
+
+    try {
+      await axios
+        .post("http://localhost:5000/upload", formData)
+        .then(
+          // Replace the loading message with the server response
+          setMessages((prevMessages) => {
+            const updatedMessages = [...prevMessages];
+            updatedMessages[updatedMessages.length - 1] = {
+              sender: "ai",
+            };
+            return updatedMessages;
+          })
+        )
+        .catch((error) => {
+          console.error("Error sending message:", error);
+          setMessages((prevMessages) => {
+            const updatedMessages = [...prevMessages];
+            updatedMessages[updatedMessages.length - 1] = {
+              sender: "ai",
+              text: "Error occurred.",
+            };
+            return updatedMessages;
+          });
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const toggleSidebar = () => {
@@ -56,20 +89,13 @@ const ChatApp = () => {
   };
 
   const handleFileChange = async (e) => {
-    e.preventDefault();
     const file = e.target.files[0];
 
     if (file) {
-      const formData = new FormData();
-      formData.append("file", file);
-      axios
-        .post("http://localhost:5000/upload", formData)
-        .then((res) => {})
-        .catch((error) => {
-          console.log(error);
-        });
-      await sendMessage("File uploaded", file, "");
+      console.log(file);
+      await sendMessage("File uploaded", file);
     }
+    setInput("");
   };
 
   return (
