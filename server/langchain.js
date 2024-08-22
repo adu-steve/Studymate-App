@@ -8,6 +8,8 @@ import { createOpenAIFunctionsAgent, AgentExecutor } from "langchain/agents";
 import { TavilySearchResults } from "@langchain/community/tools/tavily_search";
 import { HumanMessage, AIMessage } from "@langchain/core/messages";
 import { UnstructuredDirectoryLoader } from "@langchain/community/document_loaders/fs/unstructured";
+import { MemoryVectorStore } from "langchain/vectorstores/memory";
+import { OpenAIEmbeddings } from "@langchain/openai";
 dotenv.config();
 
 const model = new ChatOpenAI({
@@ -38,7 +40,20 @@ const langChain = async (userMessage) => {
   const directoryLoader = new UnstructuredDirectoryLoader("./public", {});
   const directoryDocs = await directoryLoader.load();
   console.log("directoryDocs.length: ", directoryDocs.length);
-  console.log(directoryDocs[0]);
+  console.log(directoryDocs[-1]);
+
+  const splitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 1000,
+    chunkOverlap: 50,
+  });
+  const splitDocs = await splitter.splitDocuments(directoryDocs);
+
+  const embeddings = new OpenAIEmbeddings();
+
+  const vectorStore = await MemoryVectorStore.fromDocuments(
+    splitDocs,
+    embeddings
+  );
 
   const response = await agentExecutor.invoke({
     input: userMessage,
