@@ -14,6 +14,7 @@ import axios from "axios";
 
 const ChatApp = () => {
   const [messages, setMessages] = useState([]);
+
   const [input, setInput] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [history, setHistory] = useState([]);
@@ -48,17 +49,20 @@ const ChatApp = () => {
     setMessages((prevMessages) => [...prevMessages, loadingMessage]);
 
     try {
-      await axios
+      const response = await axios
         .post("http://localhost:5000/upload", formData)
         .then(
+          (res) => {
+            setMessages((prevMessages) => {
+              const updatedMessages = [...prevMessages];
+              updatedMessages[updatedMessages.length - 1] = {
+                sender: "ai",
+                text: res.data.message,
+              };
+              return updatedMessages;
+            });
+          }
           // Replace the loading message with the server response
-          setMessages((prevMessages) => {
-            const updatedMessages = [...prevMessages];
-            updatedMessages[updatedMessages.length - 1] = {
-              sender: "ai",
-            };
-            return updatedMessages;
-          })
         )
         .catch((error) => {
           console.error("Error sending message:", error);
@@ -71,6 +75,8 @@ const ChatApp = () => {
             return updatedMessages;
           });
         });
+      console.log(response);
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -89,6 +95,7 @@ const ChatApp = () => {
   };
 
   const handleFileChange = async (e) => {
+    e.preventDefault();
     const file = e.target.files[0];
 
     if (file) {

@@ -1,6 +1,7 @@
 import express from "express";
 import multer from "multer";
 import cors from "cors";
+import langChain from "./langchain.js";
 
 const app = express();
 app.use(cors());
@@ -18,9 +19,14 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.post("/upload", upload.single("file"), (req, res) => {
+app.post("/upload", upload.single("file"), async (req, res) => {
   console.log(req.file);
   console.log(req.body.message);
+
+  const response = await langChain(req.body.message);
+  console.log(response);
+
+  res.status(200).json({ message: response });
 });
 
 app.listen(port, () => {
