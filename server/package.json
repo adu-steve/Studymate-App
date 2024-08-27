@@ -20,15 +20,19 @@
   },
   "homepage": "https://github.com/adu-steve/Studymate-App#readme",
   "dependencies": {
-    "@langchain/community": "^0.2.28",
-    "@langchain/openai": "^0.2.7",
+    "@langchain/community": "^0.2.31",
     "@langchain/core": "^0.2.14",
+    "@langchain/openai": "^0.2.7",
     "cors": "^2.8.5",
+    "d3-dsv": "^2.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "langchain": "^0.2.16",
+    "mammoth": "^1.8.0",
     "multer": "^1.4.5-lts.1",
-    "path": "^0.12.7"
+    "officeparser": "^4.1.1",
+    "path": "^0.12.7",
+    "pdf-parse": "^1.1.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"

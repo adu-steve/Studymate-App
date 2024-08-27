@@ -17,7 +17,7 @@ import Profile from "./components/Profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./components/firebase";
-import Settings from "./components/Setting";
+
 function App() {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
@@ -49,7 +49,6 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/chat" element={<ChatApp />} />
         <Route path="/landPage" element={<LandingPage />} />
-        <Route path="/settings" element={<Settings />} />
       </Routes>
       <ToastContainer />
     </Router>

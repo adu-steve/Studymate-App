@@ -23,9 +23,8 @@ function Register() {
           lastName: lname,
           photo: "",
         });
-        window.location.href = "/login";
       }
-      console.log("User Registered Successfully!!");
+
       toast.success("User Registered Successfully!!", {
         position: "top-center",
       });

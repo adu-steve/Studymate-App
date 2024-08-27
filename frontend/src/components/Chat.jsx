@@ -9,12 +9,12 @@ import {
   FaMoon,
   FaUserCircle,
   FaRobot,
+  FaPaperclip,
 } from "react-icons/fa";
 import axios from "axios";
 
 const ChatApp = () => {
   const [messages, setMessages] = useState([]);
-
   const [input, setInput] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [history, setHistory] = useState([]);
@@ -49,36 +49,28 @@ const ChatApp = () => {
     setMessages((prevMessages) => [...prevMessages, loadingMessage]);
 
     try {
-      const response = await axios
-        .post("http://localhost:5000/upload", formData)
-        .then(
-          (res) => {
-            setMessages((prevMessages) => {
-              const updatedMessages = [...prevMessages];
-              updatedMessages[updatedMessages.length - 1] = {
-                sender: "ai",
-                text: res.data.message,
-              };
-              return updatedMessages;
-            });
-          }
-          // Replace the loading message with the server response
-        )
-        .catch((error) => {
-          console.error("Error sending message:", error);
-          setMessages((prevMessages) => {
-            const updatedMessages = [...prevMessages];
-            updatedMessages[updatedMessages.length - 1] = {
-              sender: "ai",
-              text: "Error occurred.",
-            };
-            return updatedMessages;
-          });
-        });
-      console.log(response);
-      console.log(response.data);
+      const response = await axios.post(
+        "http://localhost:5000/upload",
+        formData
+      );
+      setMessages((prevMessages) => {
+        const updatedMessages = [...prevMessages];
+        updatedMessages[updatedMessages.length - 1] = {
+          sender: "ai",
+          text: response.data.message,
+        };
+        return updatedMessages;
+      });
     } catch (error) {
-      console.log(error);
+      console.error("Error sending message:", error);
+      setMessages((prevMessages) => {
+        const updatedMessages = [...prevMessages];
+        updatedMessages[updatedMessages.length - 1] = {
+          sender: "ai",
+          text: "Error occurred.",
+        };
+        return updatedMessages;
+      });
     }
   };
 
@@ -90,7 +82,7 @@ const ChatApp = () => {
     setDarkMode(!darkMode);
   };
 
-  const handleMessage = async (message) => {
+  const handleMessage = async () => {
     await sendMessage(input, null, history);
   };
 
@@ -99,7 +91,6 @@ const ChatApp = () => {
     const file = e.target.files[0];
 
     if (file) {
-      console.log(file);
       await sendMessage("File uploaded", file);
     }
     setInput("");
@@ -108,8 +99,13 @@ const ChatApp = () => {
   return (
     <div
       className={`flex h-screen ${
-        darkMode ? "static-gradient-dark" : "static-gradient-light"
+        darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
       }`}
+      style={{
+        backgroundImage: `url('/botuser.png')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
       {/* Sidebar */}
       <div
@@ -121,7 +117,12 @@ const ChatApp = () => {
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
           <h2 className="text-xl font-bold">Menu</h2>
-          <button onClick={toggleSidebar}>
+          <button
+            onClick={toggleSidebar}
+            className={`p-2 rounded hover:bg-gray-700 transition-colors ${
+              darkMode ? "text-white" : "text-gray-900"
+            }`}
+          >
             <FaTimes />
           </button>
         </div>
@@ -164,34 +165,46 @@ const ChatApp = () => {
         <header className="flex items-center justify-between mb-4">
           <button
             onClick={toggleSidebar}
-            className="text-2xl text-gray-500 hover:text-yellow-500"
+            className={`text-2xl ${
+              darkMode
+                ? "text-white hover:text-gray-400"
+                : "text-gray-900 hover:text-blue-600"
+            }`}
           >
             <FaBars />
-            <h3>Menu</h3>
+            <h3 className="inline ml-2">Menu</h3>
           </button>
-          <h1 className="text-2xl font-bold">SAC AI</h1>
+          <h1 className="text-2xl font-bold">Hello StudyMate, Welcome😅</h1>
           <button
             onClick={toggleDarkMode}
-            className="text-2xl text-gray-500 hover:text-blue-500"
+            className={`text-2xl ${
+              darkMode
+                ? "text-yellow-400 hover:text-yellow-500"
+                : "text-gray-900 hover:text-blue-500"
+            }`}
           >
             {darkMode ? (
-              <p>
-                <FaSun />
-                Light
+              <p className="flex items-center">
+                <FaSun className="mr-1" /> Light
               </p>
             ) : (
-              <p>
-                <FaMoon />
-                Dark
+              <p className="flex items-center">
+                <FaMoon className="mr-1" /> Dark
               </p>
             )}
           </button>
         </header>
         <div
           id="chat-window"
-          className={`flex-1 overflow-y-auto p-4 shadow rounded-lg mb-4 ${
-            darkMode ? "bg-gray-800" : "bg-white"
-          }`}
+          className={`flex-1 overflow-y-auto p-4 mb-4 ${
+            darkMode ? "bg-gray-800 text-white" : "bg-white text-black"
+          } rounded-lg`}
+          style={{
+            backdropFilter: "blur(10px)", // Add a blur effect to blend with background
+            backgroundColor: darkMode
+              ? "rgba(31, 41, 55, 0.6)"
+              : "rgba(255, 255, 255, 0.6)", // Semi-transparent background
+          }}
         >
           {messages.map((msg, index) => (
             <div
@@ -202,7 +215,7 @@ const ChatApp = () => {
             >
               {msg.sender === "ai" && (
                 <div className="flex-shrink-0 mr-2">
-                  <FaRobot className="text-xl fixed-size-icon ai-icon" />
+                  <FaRobot className="text-xl" />
                 </div>
               )}
               <div
@@ -221,21 +234,38 @@ const ChatApp = () => {
               </div>
               {msg.sender === "user" && (
                 <div className="flex-shrink-0 ml-2">
-                  <FaUserCircle className="text-xl fixed-size-icon user-icon" />
+                  <FaUserCircle className="text-xl" />
                 </div>
               )}
             </div>
           ))}
         </div>
+
         <div className="flex mb-4">
+          <div className="relative flex items-center">
+            <input
+              type="file"
+              onChange={handleFileChange}
+              id="file-input"
+              className="hidden"
+            />
+            <label htmlFor="file-input" className="cursor-pointer">
+              <FaPaperclip
+                className={`text-2xl mx-2 ${
+                  darkMode ? "text-white" : "text-gray-700"
+                }`}
+              />
+            </label>
+          </div>
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className={`flex-1 p-2 border rounded-l-lg focus:outline-none ${
-              darkMode ? "bg-gray-700 text-white" : "bg-gray-100"
+            className={`flex-1 p-2 border rounded-lg focus:outline-none ${
+              darkMode ? "bg-gray-700 text-white" : "bg-gray-100 text-black"
             }`}
             placeholder="Type a message..."
+            style={{ paddingLeft: "2.5rem" }} // Add space for the icon
           />
           <button
             onClick={handleMessage}
@@ -244,17 +274,6 @@ const ChatApp = () => {
             Send
           </button>
         </div>
-      </div>
-
-      {/* File Upload Area */}
-      <div className="fixed bottom-4 left-4 p-4 flex items-center justify-center">
-        <input
-          type="file"
-          onChange={handleFileChange}
-          className="w-20 h-32 border-2 border-dashed border-gray-500 rounded-lg cursor-pointer bg-gray-200 text-black p-2 hover:bg-gray-300 transition duration-300 ease-in-out"
-          style={{ display: "flex" }}
-        />
-        <p className="mt-2 text-center text-sm">Click here to upload a file</p>
       </div>
     </div>
   );
