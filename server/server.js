@@ -21,6 +21,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// Handle file uploads
 app.post("/upload", upload.single("file"), async (req, res) => {
   console.log(req.file);
   console.log(req.body.message);
@@ -31,6 +32,31 @@ app.post("/upload", upload.single("file"), async (req, res) => {
   res.status(200).json({ message: response });
 });
 
+// New route to handle URL processing
+app.post("/process-url", async (req, res) => {
+  const { url } = req.body;
+
+  if (!url) {
+    return res.status(400).json({ message: "URL is required" });
+  }
+
+  try {
+    console.log(`Received URL: ${url}`);
+
+    // Process the URL with langChain or any other logic
+    const response = await langChain(url);
+
+    console.log(`AI Response: ${response}`);
+    res.status(200).json({ message: response });
+  } catch (error) {
+    console.error("Error processing URL:", error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while processing the URL" });
+  }
+});
+
+// Get list of uploaded files
 app.get("/files", (req, res) => {
   const directoryPath = path.join(__dirname, "public");
 

@@ -30,7 +30,7 @@ const model = new ChatOpenAI({
 
 const prompt = ChatPromptTemplate.fromMessages([
   ("system",
-  "You are a helpful study mate called Max.Locate the newly uploaded file in the directory and confirm if the file is what the user uploaded. Try to be the best helpful assistant and friendly with little comedies when neccessary "),
+  "You are a helpful study mate called Max.Locate the newly uploaded file in the directory and confirm if the file is what the user uploaded. Try to be the best helpful assistant and friendly with little comedies when neccessary.Use paragraphs more or next lines and bullets to make your replies neat"),
   new MessagesPlaceholder("chat_history"),
   ("human", "{input}"),
   new MessagesPlaceholder("agent_scratchpad"),

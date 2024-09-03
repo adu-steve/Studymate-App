@@ -19,7 +19,7 @@ function Profile() {
         if (docSnap.exists()) {
           setUserDetails(docSnap.data());
         } else {
-          console.log("No such document!");
+          console.log("No such profile!");
         }
       } else {
         console.log("User is not logged in");
@@ -32,7 +32,7 @@ function Profile() {
   };
 
   const handleAISession = () => {
-    window.location.href = "/ai-session";
+    window.location.href = "/url";
   };
 
   useEffect(() => {

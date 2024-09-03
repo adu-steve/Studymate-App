@@ -14,6 +14,7 @@ import SignUp from "./components/Register";
 import ChatApp from "./components/Chat";
 import LandingPage from "./components/LandingPage";
 import Profile from "./components/Profile";
+import Url from "./components/Url";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./components/firebase";
@@ -49,6 +50,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/chat" element={<ChatApp />} />
         <Route path="/landPage" element={<LandingPage />} />
+        <Route path="/url" element={<Url />} />
       </Routes>
       <ToastContainer />
     </Router>
