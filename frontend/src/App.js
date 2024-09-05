@@ -18,6 +18,7 @@ import Url from "./components/Url";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./components/firebase";
+import About from "./components/About";
 
 function App() {
   const [user, setUser] = useState();
@@ -51,6 +52,7 @@ function App() {
         <Route path="/chat" element={<ChatApp />} />
         <Route path="/landPage" element={<LandingPage />} />
         <Route path="/url" element={<Url />} />
+        <Route path="/about" element={<About />} />
       </Routes>
       <ToastContainer />
     </Router>

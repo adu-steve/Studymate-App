@@ -7,6 +7,8 @@ import {
   FaRobot,
   FaUserCircle,
 } from "react-icons/fa";
+import wallpaper from "./images/wallpaper.png";
+import brand from "./images/study.png";
 
 function Profile() {
   const [userDetails, setUserDetails] = useState(null);
@@ -50,62 +52,199 @@ function Profile() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+        fontFamily: "Manrope",
+      }}
+    >
       {/* Left side with the background image */}
       <div
-        className="w-1/2 bg-cover bg-left"
         style={{
-          backgroundImage: `url('/botuser.png')`,
+          flex: 1,
+          backgroundImage: `url(${wallpaper})`,
+          backgroundSize: "cover",
+          backgroundPosition: "bottom right",
         }}
-      ></div>
+      >
+        {/* Optionally, add the brand image */}
+        <img
+          src={brand}
+          alt="Brand Logo"
+          style={{
+            width: "80px",
+            height: "80px",
+            margin: "20px",
+          }}
+        />
+      </div>
 
       {/* Right side with the profile details */}
-      <div className="w-1/2 flex items-center justify-center bg-gray-100">
-        <div className="bg-white bg-opacity-80 shadow-lg rounded-lg p-8 w-full max-w-md">
+      <div
+        style={{
+          width: "50%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "whitesmoke",
+          padding: "40px",
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: "white",
+            borderRadius: "15px",
+            padding: "30px",
+            boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)",
+            width: "100%",
+            maxWidth: "400px",
+          }}
+        >
           {userDetails ? (
             <>
-              <div className="flex flex-col items-center">
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  marginBottom: "20px",
+                }}
+              >
                 <img
                   alt="Profile"
                   src={userDetails.photo || "https://via.placeholder.com/150"}
-                  className="w-32 h-32 rounded-full mb-4 border-4 border-white shadow-lg"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    borderRadius: "50%",
+                    marginBottom: "10px",
+                    border: "4px solid #fff",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                  }}
                 />
-                <h3 className="text-2xl font-semibold mb-2 text-gray-800">
+                <h3
+                  style={{
+                    fontSize: "1.5rem",
+                    fontWeight: "bold",
+                    color: "#333",
+                  }}
+                >
                   Welcome, {userDetails.firstName} 🙏
                 </h3>
-                <p className="text-gray-600 mb-4">{userDetails.email}</p>
+                <p
+                  style={{
+                    color: "#666",
+                    marginBottom: "30px",
+                  }}
+                >
+                  {userDetails.email}
+                </p>
               </div>
 
-              <div className="space-y-4">
+              <div
+                style={{
+                  display: "grid",
+                  gap: "15px",
+                }}
+              >
                 <button
                   onClick={handleLogout}
-                  className="w-full bg-red-500 bg-opacity-80 text-white py-2 px-4 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors shadow-md"
+                  style={{
+                    backgroundColor: "#dc3545",
+                    color: "#fff",
+                    padding: "10px 20px",
+                    borderRadius: "10px",
+                    border: "none",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    fontSize: "1rem",
+                    transition: "background-color 0.3s",
+                  }}
+                  onMouseOver={(e) =>
+                    (e.currentTarget.style.backgroundColor = "#c82333")
+                  }
+                  onMouseOut={(e) =>
+                    (e.currentTarget.style.backgroundColor = "#dc3545")
+                  }
                 >
-                  <FaSignOutAlt className="mr-2" />
+                  <FaSignOutAlt style={{ marginRight: "8px" }} />
                   Logout
                 </button>
 
                 <button
                   onClick={handleChatSession}
-                  className="w-full bg-blue-500 bg-opacity-80 text-white py-2 px-4 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors shadow-md"
+                  style={{
+                    backgroundColor: "#007bff",
+                    color: "#fff",
+                    padding: "10px 20px",
+                    borderRadius: "10px",
+                    border: "none",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    fontSize: "1rem",
+                    transition: "background-color 0.3s",
+                  }}
+                  onMouseOver={(e) =>
+                    (e.currentTarget.style.backgroundColor = "#0056b3")
+                  }
+                  onMouseOut={(e) =>
+                    (e.currentTarget.style.backgroundColor = "#007bff")
+                  }
                 >
-                  <FaCommentDots className="mr-2" />
+                  <FaCommentDots style={{ marginRight: "8px" }} />
                   Chat Session
                 </button>
 
                 <button
                   onClick={handleAISession}
-                  className="w-full bg-green-500 bg-opacity-80 text-white py-2 px-4 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors shadow-md"
+                  style={{
+                    backgroundColor: "#28a745",
+                    color: "#fff",
+                    padding: "10px 20px",
+                    borderRadius: "10px",
+                    border: "none",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    fontSize: "1rem",
+                    transition: "background-color 0.3s",
+                  }}
+                  onMouseOver={(e) =>
+                    (e.currentTarget.style.backgroundColor = "#218838")
+                  }
+                  onMouseOut={(e) =>
+                    (e.currentTarget.style.backgroundColor = "#28a745")
+                  }
                 >
-                  <FaRobot className="mr-2" />
-                  AI Session
+                  <FaRobot style={{ marginRight: "8px" }} />
+                  URL Session
                 </button>
               </div>
             </>
           ) : (
-            <div className="flex flex-col items-center">
-              <FaUserCircle className="text-6xl text-gray-400 mb-4" />
-              <p className="text-gray-600">Loading user data...</p>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                padding: "20px",
+              }}
+            >
+              <FaUserCircle
+                style={{
+                  fontSize: "4rem",
+                  color: "#ccc",
+                  marginBottom: "10px",
+                }}
+              />
+              <p style={{ color: "#666" }}>Loading user data...</p>
             </div>
           )}
         </div>

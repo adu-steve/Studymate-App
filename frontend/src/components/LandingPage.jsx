@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { FaRobot, FaUpload, FaQuestionCircle } from "react-icons/fa";
+import brand from "./images/study.png";
 
 const LandingPage = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -21,20 +23,19 @@ const LandingPage = () => {
 
   return (
     <div
+      style={{
+        backgroundImage: `url('wallpaper.png')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
       className={`min-h-screen flex flex-col ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
       {/* Header with Background Image */}
-      <header
-        className="text-white py-4 bg-gray-900 dark:bg-gray-800"
-        style={{
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+      <header className="text-white py-4 ">
         <div className="container mx-auto flex justify-between items-center px-6">
-          <div className="text-2xl font-bold"></div>
+          <div className="text-2xl font-bold">StudyMate</div>
           <nav className="space-x-8">
             <a
               href="/"
@@ -47,7 +48,7 @@ const LandingPage = () => {
               Home
             </a>
             <a
-              href="/"
+              href="/about"
               className={`px-4 py-2 rounded-full no-underline ${
                 isDarkMode
                   ? "bg-gray-200 text-gray-900 hover:bg-gray-300"
@@ -69,7 +70,7 @@ const LandingPage = () => {
           </nav>
           <button
             onClick={toggleTheme}
-            className={`bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-gray-700 dark:bg-gray-200 dark:text-gray-900 dark:hover:bg-gray-300`}
+            className={`bg-gray-200 text-gray-900 px-4 py-2 rounded-full hover:bg-gray-700 dark:bg-gray-200 dark:text-gray-900 dark:hover:bg-gray-300`}
           >
             {isDarkMode ? "Light Mode" : "Dark Mode"}
           </button>
@@ -79,10 +80,18 @@ const LandingPage = () => {
       {/* Main Content */}
       <main className="flex flex-col items-center justify-center flex-grow py-20 px-6">
         <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">
-          Welcome StudyMate
+          <img
+            style={{
+              width: "70px",
+              height: "70px",
+            }}
+            src={brand}
+            alt="image3"
+          />
+          Welcome to StudyMate
         </h1>
         <p className="text-lg md:text-xl mb-8 text-center">
-          Chat Document with SAC AI😎📚📃
+          Chat Document with SAC AI
         </p>
         <button
           onClick={handleOpenPage}
@@ -101,6 +110,11 @@ const LandingPage = () => {
         className={`py-20 px-6 ${
           isDarkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-900"
         }`}
+        style={{
+          backgroundImage: `url('study-group-african-people.jpg')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
         <div className="container mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">
@@ -112,12 +126,13 @@ const LandingPage = () => {
                 isDarkMode ? "bg-gray-700 text-white" : "bg-white text-gray-900"
               }`}
             >
+              <FaRobot className="text-4xl mb-4 mx-auto" />
               <h3 className="text-xl md:text-2xl font-bold mb-4">
                 Chat with SacAI
               </h3>
               <p className="mb-4">
-                Want a chat with Max, the chatbot?. Sure you can!!!. Get started
-                to find out.
+                Want a chat with Max, the chatbot? Sure you can! Get started to
+                find out.
               </p>
             </div>
             <div
@@ -125,6 +140,7 @@ const LandingPage = () => {
                 isDarkMode ? "bg-gray-700 text-white" : "bg-white text-gray-900"
               }`}
             >
+              <FaUpload className="text-4xl mb-4 mx-auto" />
               <h3 className="text-xl md:text-2xl font-bold mb-4">
                 Document Upload
               </h3>
@@ -138,12 +154,13 @@ const LandingPage = () => {
                 isDarkMode ? "bg-gray-700 text-white" : "bg-white text-gray-900"
               }`}
             >
+              <FaQuestionCircle className="text-4xl mb-4 mx-auto" />
               <h3 className="text-xl md:text-2xl font-bold mb-4">
                 Ask General Questions
               </h3>
               <p className="mb-4">
-                Want to ask Max, your study mate a question not based on just
-                the document?. Yes. you can!!.
+                Want to ask Max, your study mate, a question not based on just
+                the document? Yes, you can!
               </p>
             </div>
           </div>

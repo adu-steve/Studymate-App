@@ -12,12 +12,12 @@ import {
   FaPaperclip,
 } from "react-icons/fa";
 import axios from "axios";
+import wallpaper from "./images/wallpaper.png"; // Use similar background image
 
 const ChatApp = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [history, setHistory] = useState([]);
   const [darkMode, setDarkMode] = useState(() => {
     const savedMode = localStorage.getItem("darkMode");
     return savedMode === "true" || savedMode === null;
@@ -42,8 +42,6 @@ const ChatApp = () => {
 
     const userMessage = { sender: "user", text: message };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
-    setHistory((prevHistory) => [...prevHistory, userMessage.text]);
-    setInput("");
 
     const loadingMessage = { sender: "ai", text: "..." };
     setMessages((prevMessages) => [...prevMessages, loadingMessage]);
@@ -83,7 +81,8 @@ const ChatApp = () => {
   };
 
   const handleMessage = async () => {
-    await sendMessage(input, null, history);
+    await sendMessage(input, null);
+    setInput("");
   };
 
   const handleFileChange = async (e) => {
@@ -93,7 +92,6 @@ const ChatApp = () => {
     if (file) {
       await sendMessage("File uploaded", file);
     }
-    setInput("");
   };
 
   return (
@@ -102,7 +100,7 @@ const ChatApp = () => {
         darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
       }`}
       style={{
-        backgroundImage: `url('/botuser.png')`,
+        backgroundImage: `url(${wallpaper})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -174,7 +172,7 @@ const ChatApp = () => {
             <FaBars />
             <h3 className="inline ml-2">Menu</h3>
           </button>
-          <h1 className="text-2xl font-bold">Hello StudyMate, Welcome😅</h1>
+          <h1 className="text-2xl font-bold">Chat with StudyMate</h1>
           <button
             onClick={toggleDarkMode}
             className={`text-2xl ${
@@ -200,10 +198,10 @@ const ChatApp = () => {
             darkMode ? "bg-gray-800 text-white" : "bg-white text-black"
           } rounded-lg`}
           style={{
-            backdropFilter: "blur(10px)", // Add a blur effect to blend with background
+            backdropFilter: "blur(10px)",
             backgroundColor: darkMode
               ? "rgba(31, 41, 55, 0.6)"
-              : "rgba(255, 255, 255, 0.6)", // Semi-transparent background
+              : "rgba(255, 255, 255, 0.6)",
           }}
         >
           {messages.map((msg, index) => (
@@ -262,14 +260,17 @@ const ChatApp = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             className={`flex-1 p-2 border rounded-lg focus:outline-none ${
-              darkMode ? "bg-gray-700 text-white" : "bg-gray-100 text-black"
+              darkMode
+                ? "bg-gray-700 border-gray-600 text-white"
+                : "bg-white border-gray-300 text-black"
             }`}
-            placeholder="Type a message..."
-            style={{ paddingLeft: "2.5rem" }} // Add space for the icon
+            placeholder="Type your message here..."
           />
           <button
             onClick={handleMessage}
-            className="bg-blue-500 text-white p-2 rounded-r-lg"
+            className={`ml-2 p-2 border rounded-lg ${
+              darkMode ? "bg-blue-600 text-white" : "bg-blue-500 text-white"
+            }`}
           >
             Send
           </button>
