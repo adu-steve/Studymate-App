@@ -35,7 +35,7 @@ const LandingPage = () => {
       {/* Header with Background Image */}
       <header className="text-white py-4 ">
         <div className="container mx-auto flex justify-between items-center px-6">
-          <div className="text-2xl font-bold">StudyMateA</div>
+          <div className="text-2xl font-bold">StudyMate</div>
           <nav className="space-x-8">
             <a
               href="/profile"
