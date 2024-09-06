@@ -9,6 +9,8 @@ import {
   FaMoon,
 } from "react-icons/fa";
 import axios from "axios";
+import wallpaper from "./images/wallpaper.png";
+import brand from "./images/study.png"; //
 
 const Url = () => {
   const [url, setUrl] = useState("");
@@ -52,10 +54,10 @@ const Url = () => {
   return (
     <div
       className={`flex h-screen ${
-        darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
+        darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-200"
       }`}
       style={{
-        backgroundImage: `url('/botuser.png')`,
+        backgroundImage: `url(${wallpaper})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -69,7 +71,18 @@ const Url = () => {
         } transition-transform duration-300 ease-in-out z-50`}
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          <h2 className="text-xl font-bold">Menu</h2>
+          <h2 className="text-xl font-bold">
+            {" "}
+            <img
+              style={{
+                width: "70px",
+                height: "70px",
+              }}
+              src={brand}
+              alt="image3"
+            />
+            Menu
+          </h2>
           <button
             onClick={toggleSidebar}
             className={`p-2 rounded hover:bg-gray-700 transition-colors ${
@@ -91,10 +104,10 @@ const Url = () => {
             </li>
             <li className="mb-2">
               <a
-                href="/history"
+                href="/chat"
                 className="flex items-center p-2 bg-blue-500 hover:bg-blue-700 rounded text-white no-underline"
               >
-                <FaHistory className="mr-2" /> History
+                <FaHistory className="mr-2" /> ChatPage
               </a>
             </li>
             <li className="mb-2">
@@ -103,6 +116,14 @@ const Url = () => {
                 className="flex items-center p-2 bg-blue-500 hover:bg-blue-700 rounded text-white no-underline"
               >
                 <FaInfo className="mr-2" /> About
+              </a>
+            </li>
+            <li className="mb-2">
+              <a
+                href="/profile"
+                className="flex items-center p-2 bg-blue-500 hover:bg-blue-700 rounded text-white no-underline"
+              >
+                <FaHistory className="mr-2" /> Profile
               </a>
             </li>
           </ul>
@@ -120,20 +141,30 @@ const Url = () => {
             onClick={toggleSidebar}
             className={`text-2xl ${
               darkMode
-                ? "text-white hover:text-gray-400"
-                : "text-gray-900 hover:text-blue-600"
+                ? "text-yellow-400 hover:text-gray-400"
+                : "text-gray-200 hover:text-blue-600"
             }`}
           >
             <FaBars />
             <h3 className="inline ml-2">Menu</h3>
           </button>
-          <h1 className="text-2xl font-bold">Welcome, Studymate</h1>
+          <h1 className="text-2xl font-bold">
+            <img
+              style={{
+                width: "70px",
+                height: "70px",
+              }}
+              src={brand}
+              alt="image3"
+            />
+            Upload URL & Prompt with AI StudyMate🤖
+          </h1>
           <button
             onClick={toggleDarkMode}
             className={`text-2xl ${
               darkMode
                 ? "text-yellow-400 hover:text-yellow-500"
-                : "text-gray-900 hover:text-blue-500"
+                : "text-gray-200 hover:text-blue-500"
             }`}
           >
             {darkMode ? (

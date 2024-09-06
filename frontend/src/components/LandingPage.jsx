@@ -29,23 +29,23 @@ const LandingPage = () => {
         backgroundPosition: "center",
       }}
       className={`min-h-screen flex flex-col ${
-        isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+        isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-200"
       }`}
     >
       {/* Header with Background Image */}
       <header className="text-white py-4 ">
         <div className="container mx-auto flex justify-between items-center px-6">
-          <div className="text-2xl font-bold">StudyMate</div>
+          <div className="text-2xl font-bold">StudyMateA</div>
           <nav className="space-x-8">
             <a
-              href="/"
+              href="/profile"
               className={`px-4 py-2 rounded-full no-underline ${
                 isDarkMode
                   ? "bg-gray-200 text-gray-900 hover:bg-gray-300"
                   : "bg-gray-800 text-white hover:bg-gray-700"
               }`}
             >
-              Home
+              Profile
             </a>
             <a
               href="/about"
@@ -58,14 +58,24 @@ const LandingPage = () => {
               About
             </a>
             <a
-              href="/profile"
+              href="/url"
               className={`px-4 py-2 rounded-full no-underline ${
                 isDarkMode
                   ? "bg-gray-200 text-gray-900 hover:bg-gray-300"
                   : "bg-gray-800 text-white hover:bg-gray-700"
               }`}
             >
-              Profile
+              Url Session
+            </a>
+            <a
+              href="/chat"
+              className={`px-4 py-2 rounded-full no-underline ${
+                isDarkMode
+                  ? "bg-gray-200 text-gray-900 hover:bg-gray-300"
+                  : "bg-gray-800 text-white hover:bg-gray-700"
+              }`}
+            >
+              Chat Session
             </a>
           </nav>
           <button
@@ -91,7 +101,7 @@ const LandingPage = () => {
           Welcome to StudyMate
         </h1>
         <p className="text-lg md:text-xl mb-8 text-center">
-          Chat Document with SAC AI
+          Chat Document with SAC AI🤖
         </p>
         <button
           onClick={handleOpenPage}
@@ -155,12 +165,10 @@ const LandingPage = () => {
               }`}
             >
               <FaQuestionCircle className="text-4xl mb-4 mx-auto" />
-              <h3 className="text-xl md:text-2xl font-bold mb-4">
-                Ask General Questions
-              </h3>
+              <h3 className="text-xl md:text-2xl font-bold mb-4">Url Upload</h3>
               <p className="mb-4">
-                Want to ask Max, your study mate, a question not based on just
-                the document? Yes, you can!
+                Want to ask Max, your study mate, a question or anything about
+                an online article or a website? Yes, you can!
               </p>
             </div>
           </div>

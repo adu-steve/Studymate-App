@@ -4,6 +4,7 @@ import cors from "cors";
 import fs from "fs";
 import path from "path";
 import langChain from "./langchain.js";
+import urlLangchain from "./urlLangchain.js";
 
 const app = express();
 app.use(cors());
@@ -34,7 +35,8 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 
 // New route to handle URL processing
 app.post("/process-url", async (req, res) => {
-  const { url } = req.body;
+  const url = req.body.url;
+  const promptValue = req.body.prompt;
 
   if (!url) {
     return res.status(400).json({ message: "URL is required" });
@@ -42,9 +44,10 @@ app.post("/process-url", async (req, res) => {
 
   try {
     console.log(`Received URL: ${url}`);
+    console.log(`Received prompt: ${promptValue}`);
 
     // Process the URL with langChain or any other logic
-    const response = await langChain(url);
+    const response = await urlLangchain(url, promptValue);
 
     console.log(`AI Response: ${response}`);
     res.status(200).json({ message: response });
@@ -74,10 +77,10 @@ app.get("/files", (req, res) => {
           time: fs.statSync(filePath).birthtime.getTime(),
         };
       })
-      .sort((a, b) => b.time - a.time)
+      .sort((a, b) => b.time - a.time) // Sort files by creation time in descending order
       .map((file) => file.name);
 
-    res.json(sortedFiles);
+    res.json(sortedFiles); // Send sorted list of file names to client
   });
 });
 
